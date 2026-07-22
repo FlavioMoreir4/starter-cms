@@ -1,3 +1,4 @@
+<!-- Somete para referencias do start-kit -->
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
 import TextLink from '@/components/TextLink.vue';
@@ -20,21 +21,15 @@ defineProps<{
 </script>
 
 <template>
+
     <Head title="Email verification" />
 
-    <div
-        v-if="status === 'verification-link-sent'"
-        class="mb-4 text-center text-sm font-medium text-green-600"
-    >
+    <div v-if="status === 'verification-link-sent'" class="mb-4 text-center text-sm font-medium text-green-600">
         A new verification link has been sent to the email address you provided
         during registration.
     </div>
 
-    <Form
-        v-bind="send.form()"
-        class="space-y-6 text-center"
-        v-slot="{ processing }"
-    >
+    <Form v-bind="send.form()" class="space-y-6 text-center" v-slot="{ processing }">
         <Button :disabled="processing" variant="secondary">
             <Spinner v-if="processing" />
             Resend verification email

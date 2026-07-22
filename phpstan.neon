@@ -4,10 +4,8 @@ includes:
 
 parameters:
     paths:
-        - app/
-        - bootstrap/app.php
-        - config/
-        - database/
-        - routes/
+        - app/Domain
+        - app/Filament
+        - app/Http
 
-    level: 7
+    level: 8

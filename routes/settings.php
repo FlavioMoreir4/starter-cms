@@ -1,5 +1,6 @@
 <?php
 
+// Somete para referencias do start-kit
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\SecurityController;
 use Illuminate\Auth\Middleware\RequirePassword;

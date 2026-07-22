@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Domain\Settings\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -21,6 +22,7 @@ class HandleInertiaRequests extends Middleware
      *
      * @see https://inertiajs.com/asset-versioning
      */
+    #[\Override]
     public function version(Request $request): ?string
     {
         return parent::version($request);
@@ -33,6 +35,7 @@ class HandleInertiaRequests extends Middleware
      *
      * @return array<string, mixed>
      */
+    #[\Override]
     public function share(Request $request): array
     {
         return [
@@ -42,6 +45,36 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'site' => $this->getSiteSettings(),
+            'flash' => [
+                'success' => $request->session()->get('success'),
+                'error' => $request->session()->get('error'),
+            ],
         ];
+    }
+
+    /**
+     * Summary of getSiteSettings
+     *
+     * @return array<string, mixed>
+     */
+    protected function getSiteSettings(): array
+    {
+        try {
+            /** @var SiteSetting $settings */
+            $settings = app(SiteSetting::class);
+
+            return [
+                'site_name' => $settings->site_name ?: config('app.name'),
+                'logo' => $settings->logo,
+                'primary_color' => $settings->primary_color,
+            ];
+        } catch (\Throwable) {
+            return [
+                'site_name' => config('app.name'),
+                'logo' => null,
+                'primary_color' => '#000000',
+            ];
+        }
     }
 }

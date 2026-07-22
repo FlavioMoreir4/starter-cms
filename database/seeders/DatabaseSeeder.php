@@ -15,11 +15,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        User::firstOrCreate(
+            ['email' => 'admin@mktcode.digital'],
+            [
+                'name' => 'Admin',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            RolesAndPermissionsSeeder::class,
+            SiteSettingsSeeder::class,
+            CategoriesSeeder::class,
+            TagsSeeder::class,
+            PostsSeeder::class,
+            ProjectsSeeder::class,
+            PagesSeeder::class,
+            FormsSeeder::class,
         ]);
     }
 }
